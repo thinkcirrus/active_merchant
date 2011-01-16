@@ -271,7 +271,6 @@ module ActiveMerchant #:nodoc:
           test ? TEST_URL : LIVE_URL
         end
       end
-      
     end
   end
 end
