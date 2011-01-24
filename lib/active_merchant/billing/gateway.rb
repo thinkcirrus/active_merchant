@@ -147,7 +147,7 @@ module ActiveMerchant #:nodoc:
         if self.money_format == :cents
           cents.to_s
         else
-          sprintf("%.2f", cents.to_f / 100)
+          sprintf("%.2f", cents.to_f / 100.0)
         end
       end
 
