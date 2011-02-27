@@ -14,6 +14,11 @@ authorize_net:
   login: X
   password: Y
 
+barclays_epdq:
+  login: test
+  password: test
+  client_id: 1234
+
 beanstream:
   login: merchant id
   user: username
@@ -72,9 +77,19 @@ exact:
   login: "A00427-01" 
   password: testus
 
+federated_canada:
+  login: demo
+  password: password
+
 first_pay:
   login:
   password:
+    
+garanti:
+  login:
+  password:
+  terminal_id:
+  merchant_id:
 
 # login: merchant number
 # password: password for the PEM secret key
@@ -131,6 +146,10 @@ netbilling:
 net_registry:
   login: X
   password: Y
+
+nmi:
+  login: demo
+  password: password
   
 ogone:
   login: LOGIN

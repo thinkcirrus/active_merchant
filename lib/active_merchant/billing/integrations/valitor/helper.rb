@@ -6,13 +6,18 @@ module ActiveMerchant #:nodoc:
       module Valitor
         class Helper < ActiveMerchant::Billing::Integrations::Helper
           include RequiresParameters
-
+          
+          DEFAULT_SUCCESS_TEXT = "The transaction has been completed."
+          
           def initialize(order, account, options={})
             options[:currency] ||= 'ISK'
             super
             add_field 'Adeinsheimild', '0'
             add_field 'KaupandaUpplysingar', '0'
             add_field 'SlokkvaHaus', '0'
+            @security_number = options[:credential2]
+            @amount          = options[:amount]
+            @order           = order
           end
           
           mapping :account, 'VefverslunID'
@@ -27,10 +32,6 @@ module ActiveMerchant #:nodoc:
           mapping :success_text, 'SlodTokstAdGjaldfaeraTexti'
           
           mapping :language, 'Lang'
-          
-          def password(number)
-            @security_number = number
-          end
           
           def authorize_only
             add_field 'Adeinsheimild', '1'
@@ -70,6 +71,8 @@ module ActiveMerchant #:nodoc:
           end
 
           def form_fields
+            product(1, :amount => @amount, :description => @order) if Array(@products).empty?
+            @fields[mappings[:success_text]] ||= DEFAULT_SUCCESS_TEXT
             @fields.merge('RafraenUndirskrift' => signature)
           end
         end

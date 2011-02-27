@@ -1,9 +1,10 @@
+# coding: utf-8
 require 'test_helper'
 
 class GarantiTest < Test::Unit::TestCase
   def setup
     Base.gateway_mode = :test
-    @gateway = GarantiGateway.new(fixtures(:garanti))
+    @gateway = GarantiGateway.new(:login => 'a', :password => 'b', :terminal_id => 'c', :merchant_id => 'd')
 
     @credit_card = credit_card(4242424242424242)
     @amount = 1000 #1000 cents, 10$
@@ -33,6 +34,19 @@ class GarantiTest < Test::Unit::TestCase
     assert response = @gateway.purchase(@amount, @credit_card, @options)
     assert_failure response
     assert response.test?
+  end
+
+  def test_character_normalization
+    if ActiveSupport::Inflector.method(:transliterate).arity == -2
+      assert_equal 'ABCCDEFGGHIIJKLMNOOPRSSTUUVYZ', @gateway.send(:normalize, 'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ')
+      assert_equal 'abccdefgghiijklmnooprsstuuvyz', @gateway.send(:normalize, 'abcçdefgğhıijklmnoöprsştuüvyz')
+    elsif RUBY_VERSION >= '1.9'
+      assert_equal 'ABCDEFGHIJKLMNOPRSTUVYZ', @gateway.send(:normalize, 'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ')
+      assert_equal 'abcdefghijklmnoprstuvyz', @gateway.send(:normalize, 'abcçdefgğhıijklmnoöprsştuüvyz')
+    else
+      assert_equal 'ABCCDEFGGHIIJKLMNOOPRSSTUUVYZ', @gateway.send(:normalize, 'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ')
+      assert_equal 'abccdefgghijklmnooprsstuuvyz', @gateway.send(:normalize, 'abcçdefgğhıijklmnoöprsştuüvyz')
+    end
   end
 
   private

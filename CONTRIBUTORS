@@ -187,9 +187,27 @@ Quantum Gateway
 
 BluePay Gateway
 
-* Nathaniel Talbott
+* Mel Sleight
+* Refactored by Nathaniel Talbott
 
 Valitor Integration (January 2011)
 
 * Nathaniel Talbott
 * Sponsored by Sævar Öfjörð Magnússon
+
+Barclays ePDQ
+
+* Original code by Rob W (rfwatson)
+* Refactored by Nathaniel Talbott
+
+Federated Canada
+
+* Bob Larrick (deathbob)
+
+NMI
+
+* Nathaniel Talbott (ntalbott)
+
+QBMS
+
+* Will Glozer (wg)
