@@ -78,7 +78,12 @@ module ActiveMerchant #:nodoc:
           def transaction_id
             params['txn_id']
           end
-
+          
+          # recurring payment id of this transaction (paypal number)
+          def recurring_payment_id
+            params['recurring_payment_id']
+          end
+          
           # What type of transaction are we dealing with? 
           #  "cart" "send_money" "web_accept" are possible here. 
           def type
