@@ -84,6 +84,11 @@ module ActiveMerchant #:nodoc:
             params['recurring_payment_id']
           end
           
+          # recurring payemnt outstanding balance
+          def outstanding_balance
+            params['outstanding_balance']
+          end
+          
           # What type of transaction are we dealing with? 
           #  "cart" "send_money" "web_accept" are possible here. 
           def type
