@@ -97,7 +97,7 @@ module ActiveMerchant #:nodoc:
 
           # the money amount we received in X.2 decimal.
           def gross
-            params['mc_gross']
+            params['mc_gross'] || params['amount']
           end
 
           # the markup paypal charges for the transaction
