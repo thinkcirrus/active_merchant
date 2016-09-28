@@ -20,31 +20,48 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
-                    
-$:.unshift File.dirname(__FILE__)
 
 require 'active_support'
 require 'active_support/core_ext/string/inflections'
 require 'active_support/core_ext/hash/indifferent_access'
 require 'active_support/core_ext/hash/conversions'
-require 'active_support/core_ext/class/inheritable_attributes'
-require 'active_support/core_ext/class/attribute_accessors'
+require 'active_support/core_ext/object/conversions'
+require 'active_support/core_ext/class/attribute'
+require 'active_support/core_ext/enumerable'
+
+if(!defined?(ActiveSupport::VERSION) || (ActiveSupport::VERSION::STRING < "4.1"))
+  require 'active_support/core_ext/class/attribute_accessors'
+end
+
 require 'active_support/core_ext/class/delegating_attributes'
 require 'active_support/core_ext/module/attribute_accessors'
-require 'active_support/core_ext/kernel/requires'
-require 'active_support/base64'
-require 'active_support/secure_random'
 
+require 'base64'
+require 'securerandom'
 require 'builder'
 require 'cgi'
 require 'rexml/document'
+require 'timeout'
+require 'socket'
 
-require 'active_merchant/common'
+require 'active_merchant/network_connection_retries'
+require 'active_merchant/connection'
+require 'active_merchant/post_data'
+require 'active_merchant/posts_data'
+
 require 'active_merchant/billing'
 require 'active_merchant/version'
+require 'active_merchant/country'
 
-module ActiveMerchant #:nodoc:
-  module Billing #:nodoc:    
-    autoload :Integrations, 'active_merchant/billing/integrations'
+module ActiveMerchant
+  def self.deprecated(message, caller=Kernel.caller[1])
+    warning = caller + ": " + message
+    if(respond_to?(:logger) && logger.present?)
+      logger.warn(warning)
+    else
+      warn(warning)
+    end
   end
 end
+
+I18n.enforce_available_locales = false
