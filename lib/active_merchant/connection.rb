@@ -12,7 +12,7 @@ module ActiveMerchant
     READ_TIMEOUT = 60
     VERIFY_PEER = true
     CA_FILE = File.exists?('/etc/ssl/certs') ? '/etc/ssl/certs' : File.expand_path('../certs/cacert.pem', File.dirname(__FILE__))
-    CA_PATH = nil
+    CA_PATH = File.exists?('/etc/ssl/certs') ? '/etc/ssl/certs' : File.expand_path('../certs/cacert.pem', File.dirname(__FILE__))
     RETRY_SAFE = false
     RUBY_184_POST_HEADERS = { "Content-Type" => "application/x-www-form-urlencoded" }
 
@@ -119,7 +119,7 @@ module ActiveMerchant
 
       if verify_peer
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        http.ca_file     = ca_file
+        # http.ca_file     = ca_file
         http.ca_path     = ca_path
       else
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
