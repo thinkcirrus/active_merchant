@@ -54,6 +54,10 @@ require 'active_merchant/version'
 require 'active_merchant/country'
 
 module ActiveMerchant
+	module Billing #:nodoc:
+	  autoload :Integrations, 'active_merchant/billing/integrations'
+	end
+
   def self.deprecated(message, caller=Kernel.caller[1])
     warning = caller + ": " + message
     if(respond_to?(:logger) && logger.present?)
